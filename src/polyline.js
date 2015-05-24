@@ -22,7 +22,7 @@ function encode(coordinate, factor) {
 
 // This is adapted from the implementation in Project-OSRM
 // https://github.com/DennisOSRM/Project-OSRM-Web/blob/master/WebContent/routing/OSRM.RoutingGeometry.js
-polyline.decode = function(str, precision) {
+polyline.decode = function(str, precision, reverse) {
     var index = 0,
         lat = 0,
         lng = 0,
@@ -65,7 +65,15 @@ polyline.decode = function(str, precision) {
         lat += latitude_change;
         lng += longitude_change;
 
-        coordinates.push([lat / factor, lng / factor]);
+        if(reverse){
+            //Bring back X,Y a.k.a. Lng/Lat
+            coordinates.push([lng / factor, lat / factor]);
+        }
+        else{
+            //Bring Back Y,X a.k.a. Lat/Lng
+            coordinates.push([lat / factor, lng / factor]);
+        }
+        
     }
 
     return coordinates;
